@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Categories</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="./styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Movie Genres</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#action">Action</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#comedy">Comedy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#sci-fi">Sci-fi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#drama">Drama</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#independent-film">Independent Films</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="favorites.html">Favorites</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add-movie.html">Add Movies</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Add New Movie Section -->
+    <section id="add-movie" class="menu-section container mt-5 pt-5">
+        <h2 class="mb-4">Add New Movie</h2>
+        <form id="add-movie-form">
+            <div class="mb-3">
+                <label for="movie-title" class="form-label">Movie Title</label>
+                <input type="text" class="form-control" id="movie-title" required />
+            </div>
+            <div class="mb-3">
+                <label for="movie-description" class="form-label">Description</label>
+                <input type="text" class="form-control" id="movie-description" required />
+            </div>
+            <div class="mb-3">
+                <label for="movie-image" class="form-label">Image URL</label>
+                <input type="text" class="form-control" id="movie-image" required />
+            </div>
+            <div class="mb-3">
+                <label for="movie-category" class="form-label">Category</label>
+                <select class="form-control" id="movie-category" required>
+                    <option value="action">Action</option>
+                    <option value="comedy">Comedy</option>
+                    <option value="sci-fi">Sci-fi</option>
+                    <option value="drama">Drama</option>
+                    <option value="independent-film">Independent-film</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Movie</button>
+        </form>
+    </section>
+
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> 
+    <script src="./moviescript.js"></script>
+</body>
+
+</html>
