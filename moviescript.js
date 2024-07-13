@@ -24,7 +24,7 @@ $(document).ready(function () {//This code ensures that the script runs only aft
                     const movieCard = `
                         <div class="col-md-4 menu-item">
                           <div class="card">
-                            <img src="${movie.image}" class="card-img-top" alt="${movie.name}" />
+                            <img src="${movie.image}" class="card-img-top" alt="${movie.name}">
                             <div class="card-body">
                               <h5 class="card-title">${movie.title}</h5>
                               <p class="card-text">${movie.description}</p>
@@ -59,11 +59,11 @@ $(document).ready(function () {//This code ensures that the script runs only aft
     // FETCH FAVORITE MOVIES
     function getFavoriteMovies() {
         $.ajax({
-            url: API_URL,
+            url: API_URL,// using Ajax I submit a request with the 'get' method. If it is successful then the function will be executed
             method: 'GET',
             success: function (movies) {
-                $('#favorite-movies').empty();
-                movies.forEach(movie => {
+                $('#favorite-movies').empty();// empties the favorites class
+                movies.forEach(movie => {// for each movie check if it's already a favorite
                     if (movie.favorite) {
                         const movieCard = `
                         <div class="col-md-4 menu-item">
@@ -146,7 +146,7 @@ $(document).ready(function () {//This code ensures that the script runs only aft
         //This value is stored in the variable id and represents the identifier of the movie to be deleted.
 
         $.ajax({
-            url: `${API_URL}/${id}`,// appends the id to the database
+            url: `${API_URL}/${id}`,// specific id from the database to be deleted
             method: 'DELETE',// request to remove the resource from the server
             success: function () {
                 getMovies();
@@ -166,12 +166,12 @@ $(document).ready(function () {//This code ensures that the script runs only aft
         const isFavorite = icon.hasClass('fas');// checks if the element is already a favorite
 
         $.ajax({
-            url: `${API_URL}/${id}`,
-            method: 'PATCH',
+            url: `${API_URL}/${id}`,// specific id from the database
+            method: 'PATCH',// patch to make a partial update
             contentType: 'application/json',
-            data: JSON.stringify({ favorite: !isFavorite }),
+            data: JSON.stringify({ favorite: !isFavorite }),// checks if it's favorite
             success: function () {
-                getFavoriteMovies();
+                getFavoriteMovies();// calls the get Favorite Movies function
             },
             error: function (xhr, status, error) {
                 console.error("Error toggling favorite status:", error);
