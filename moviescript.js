@@ -12,7 +12,7 @@ $(document).ready(function () {//This code ensures that the script runs only aft
 
     // FETCH ALL MOVIES
 
-    function getMovies() {// fecth movie data from the API.
+    function getMovies() {// fetch movie data from the API.
         $.ajax({ // using Ajax I submit a request with the 'get' method. If it is successful then the function will be executed
             url: API_URL,
             method: 'GET',
@@ -62,7 +62,7 @@ $(document).ready(function () {//This code ensures that the script runs only aft
             url: API_URL,// using Ajax I submit a request with the 'get' method. If it is successful then the function will be executed
             method: 'GET',
             success: function (movies) {
-                $('#favorite-movies').empty();// empties the favorites class
+                $('#favorite. row').empty();// empties the favorites class
                 movies.forEach(movie => {// for each movie check if it's already a favorite
                     if (movie.favorite) {
                         const movieCard = `
@@ -73,14 +73,14 @@ $(document).ready(function () {//This code ensures that the script runs only aft
                                     <h5 class="card-title">${movie.title}</h5>
                                     <p class="card-text">${movie.description}</p>
                                     <button class="btn btn-primary favorite-btn" data-id="${movie.id}">
-                                        <i class="${movie.favorite} fa-heart"></i>
+                                        <i class="fas fa-heart"></i>
                                     </button>
                                     <button class="btn btn-danger delete-btn" data-id="${movie.id}">Delete</button>
                                 </div>
                             </div>
                         </div>
                     `;
-                        if (movie.favorite == true)
+                        // if (movie.favorite == true)
                             $('#favorite .row').append(movieCard);
                     }// A template literal is used to create an HTML structure for each movie card, incorporating movie details and dynamically setting classes and data attributes.
                 });
@@ -103,7 +103,10 @@ $(document).ready(function () {//This code ensures that the script runs only aft
             contentType: 'application/json',
             data: JSON.stringify({ favorite: isFavorite }),//The data property is set to a JSON string representing the updated favorite status. isFavorite is passed as the new favorite status.
             success: function () {
-                getMovies();//If the request is successful, the getMovies function is called to refresh the list of movies, ensuring the updated favorite status is displayed.
+                getMovies();
+                if (window.location.pathname.endsWith('favorites.html')) {
+                    getFavoriteMovies();
+                }//If the request is successful, the getMovies function is called to refresh the list of movies, ensuring the updated favorite status is displayed.
             },
             error: function (xhr, status, error) {
                 console.error("Error toggling favorite status:", error);// if it fails displays an error
@@ -150,44 +153,9 @@ $(document).ready(function () {//This code ensures that the script runs only aft
             method: 'DELETE',// request to remove the resource from the server
             success: function () {
                 getMovies();
-            },
-            error: function (xhr, status, error) {
-                console.error("Error deleting movie:", error);// error handling
-            }
-        });
-    });
-
-
-    //FAVORITE BUTTON
-
-    $(document).on('click', '.favorite-btn', function () {
-        const id = $(this).data('id');// retrieves the data id of the item that was clicked
-        const icon = $(this).find('i');// finds the icon within the clicked element
-        const isFavorite = icon.hasClass('fas');// checks if the element is already a favorite
-
-        $.ajax({
-            url: `${API_URL}/${id}`,// specific id from the database
-            method: 'PATCH',// patch to make a partial update
-            contentType: 'application/json',
-            data: JSON.stringify({ favorite: !isFavorite }),// checks if it's favorite
-            success: function () {
-                getFavoriteMovies();// calls the get Favorite Movies function
-            },
-            error: function (xhr, status, error) {
-                console.error("Error toggling favorite status:", error);
-            }
-        });
-    });
-
-    // DELETE A MOVIE FROM FAVORITES PAGE
-    $(document).on('click', '.delete-btn', function () {// event handler delete button
-        const id = $(this).data('id');
-
-        $.ajax({
-            url: `${API_URL}/${id}`,// database plus specific id
-            method: 'DELETE',
-            success: function () {
-                getFavoriteMovies();// if successful calls the getFavoriteMovies function
+                if (window.location.pathname.endsWith('favorites.html')) {
+                    getFavoriteMovies();
+                }
             },
             error: function (xhr, status, error) {
                 console.error("Error deleting movie:", error);// error handling

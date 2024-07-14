@@ -30,7 +30,7 @@
       "image": "./images/if.jpeg",
       "description": "After discovering she can see everyone's imaginary friends, a girl embarks on a magical adventure to reconnect forgotten imaginary friends with their kids.",
       "category": "comedy",
-      "favorite": true
+      "favorite": false
     },
     {
       "id": "5",
@@ -125,7 +125,7 @@
       "title": "gladiator",
       "description": "gladiator",
       "image": "https://www.denofgeek.com/wp-content/uploads/2020/06/Russell-Crowe-as-Maximus-in-Gladiator-20th-Anniversary.jpg?resize=768%2C432",
-      "favorite": true,
+      "favorite": false,
       "category": "action"
     },
     {
