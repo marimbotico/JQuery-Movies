@@ -62,7 +62,7 @@ $(document).ready(function () {//This code ensures that the script runs only aft
             url: API_URL,// using Ajax I submit a request with the 'get' method. If it is successful then the function will be executed
             method: 'GET',
             success: function (movies) {
-                $('#favorite. row').empty();// empties the favorites class
+                $('#favorites .row').empty();// empties the favorites class
                 movies.forEach(movie => {// for each movie check if it's already a favorite
                     if (movie.favorite) {
                         const movieCard = `
@@ -81,7 +81,7 @@ $(document).ready(function () {//This code ensures that the script runs only aft
                         </div>
                     `;
                         // if (movie.favorite == true)
-                            $('#favorite .row').append(movieCard);
+                            $('#favorites .row').append(movieCard);
                     }// A template literal is used to create an HTML structure for each movie card, incorporating movie details and dynamically setting classes and data attributes.
                 });
             },

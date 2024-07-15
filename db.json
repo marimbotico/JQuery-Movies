@@ -6,7 +6,7 @@
       "image": "./images/braveheart.jpeg",
       "description": "William Wallace is the medieval Scottish patriot who is spurred into revolt against the English when the love of his life is slaughtered. Leading his army into battles that become a war, his advance into England threatens King Edward I's throne before he is captured and executed, but not before becoming a symbol for a free Scotland.",
       "category": "action",
-      "favorite": false
+      "favorite": true
     },
     {
       "id": "2",
@@ -22,7 +22,7 @@
       "image": "./images/beekeeper.jpeg",
       "description": "One man's brutal campaign for vengeance takes on national stakes after it's revealed he's a former operative of a powerful and clandestine organization known as Beekeepers.",
       "category": "action",
-      "favorite": false
+      "favorite": true
     },
     {
       "id": "4",
