@@ -6,8 +6,10 @@
 // Use Bootstrap and CSS to style your project.
 
 
+
+
 $(document).ready(function () {//This code ensures that the script runs only after the entire HTML document is fully loaded.
-    const API_URL = 'http://localhost:3000/Movies'; // defining the constant API_URL is defined with the URL of the API endpoint that provides the movie data.
+    const API_URL = 'https://movies-1-ahs6.onrender.com/movies'; // defining the constant API_URL is defined with the URL of the API endpoint that provides the movie data.
 
 
     // FETCH ALL MOVIES
