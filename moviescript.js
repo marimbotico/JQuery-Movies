@@ -1,16 +1,5 @@
-// Create a full CRUD application of your choice using an API or JSON Server.
-// Use JQuery/AJAX to interact with the API. 
-// Use a form to post new entities.
-// Build a way for users to update or delete entities.
-// Include a way to get entities from the API.
-// Use Bootstrap and CSS to style your project.
-
-
-
-
-$(document).ready(function () {//This code ensures that the script runs only after the entire HTML document is fully loaded.
-    const API_URL = 'https://movies-1-ahs6.onrender.com/movies'; // defining the constant API_URL is defined with the URL of the API endpoint that provides the movie data.
-
+$(document).ready(function () {
+    const API_URL = 'https://movies-1-ahs6.onrender.com/movies';
 
     document.addEventListener('DOMContentLoaded', function() {
         var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
@@ -26,19 +15,16 @@ $(document).ready(function () {//This code ensures that the script runs only aft
         });
     });
 
-
-
     // FETCH ALL MOVIES
-
-    function getMovies() {// fetch movie data from the API.
-        $.ajax({ // using Ajax I submit a request with the 'get' method. If it is successful then the function will be executed
+    function getMovies() {
+        $.ajax({
             url: API_URL,
             method: 'GET',
             success: function (movies) {
                 console.log('movies', movies);
-                $('#action .row, #comedy .row, #sci-fi .row, #drama .row, #independent-film .row').empty();//empty() clears all te data from these containers to proper display the new data.
-                movies.forEach(movie => {// iterates over each movie
-                    const favClass = movie.favorite ? 'fas' : 'far'; // for each movie, check if it's already a favorite
+                $('#action .row, #comedy .row, #sci-fi .row, #drama .row, #independent-film .row').empty();
+                movies.forEach(movie => {
+                    const favClass = movie.favorite ? 'fas' : 'far';
                     const movieCard = `
                         <div class="col-md-4 menu-item">
                           <div class="card">
@@ -46,14 +32,14 @@ $(document).ready(function () {//This code ensures that the script runs only aft
                             <div class="card-body">
                               <h5 class="card-title">${movie.title}</h5>
                               <p class="card-text">${movie.description}</p>
-                              <button class="btn btn-primary favorite-btn" data-id="${movie.id}">
+                              <button class="btn btn-primary favorite-btn" data-id="${movie.id}" data-favorite="${movie.favorite}">
                                 <i class="${favClass} fa-heart"></i>
                               </button>
                               <button class="btn btn-danger delete-btn" data-id="${movie.id}">Delete</button>
                             </div>
                           </div>
                         </div>
-                    `;// A template literal is used to create an HTML structure for each movie card, incorporating movie details and dynamically setting classes and data attributes.
+                    `;
 
                     if (movie.category === "action") {
                         $('#action .row').append(movieCard);
@@ -66,10 +52,10 @@ $(document).ready(function () {//This code ensures that the script runs only aft
                     } else if (movie.category === "independent-film") {
                         $('#independent-film .row').append(movieCard);
                     }
-                });//depending on the category of each movie, a corresponding container is selected and the movie card is appended to it.
+                });
             },
             error: function (xhr, status, error) {
-                console.error("Error fetching movies:", error);// if the AJAX request fails, an error message is logged to the console.
+                console.error("Error fetching movies:", error);
             }
         });
     }
@@ -77,11 +63,11 @@ $(document).ready(function () {//This code ensures that the script runs only aft
     // FETCH FAVORITE MOVIES
     function getFavoriteMovies() {
         $.ajax({
-            url: API_URL,// using Ajax I submit a request with the 'get' method. If it is successful then the function will be executed
+            url: API_URL,
             method: 'GET',
             success: function (movies) {
-                $('#favorites .row').empty();// empties the favorites class
-                movies.forEach(movie => {// for each movie check if it's already a favorite
+                $('#favorites .row').empty();
+                movies.forEach(movie => {
                     if (movie.favorite) {
                         const movieCard = `
                         <div class="col-md-4 menu-item">
@@ -90,7 +76,7 @@ $(document).ready(function () {//This code ensures that the script runs only aft
                                 <div class="card-body">
                                     <h5 class="card-title">${movie.title}</h5>
                                     <p class="card-text">${movie.description}</p>
-                                    <button class="btn btn-primary favorite-btn" data-id="${movie.id}">
+                                    <button class="btn btn-primary favorite-btn" data-id="${movie.id}" data-favorite="true">
                                         <i class="fas fa-heart"></i>
                                     </button>
                                     <button class="btn btn-danger delete-btn" data-id="${movie.id}">Delete</button>
@@ -98,43 +84,42 @@ $(document).ready(function () {//This code ensures that the script runs only aft
                             </div>
                         </div>
                     `;
-                        // if (movie.favorite == true)
                         $('#favorites .row').append(movieCard);
-                    }// A template literal is used to create an HTML structure for each movie card, incorporating movie details and dynamically setting classes and data attributes.
+                    }
                 });
             },
             error: function (xhr, status, error) {
-                console.error("Error fetching movies:", error);// error handling
+                console.error("Error fetching movies:", error);
             }
         });
     }
 
     // TOGGLE FAVORITE STATUS
-    $(document).on('click', '.favorite-btn', function () {//event handler for clicks with the class '.favorite-btn'
-        const id = $(this).data('id');// retrieves the data id of the item that was clicked
-        const icon = $(this).find('i');// finds the icon within the clicked element
-        const isFavorite = icon.hasClass('far');// checks if the element is already a favorite
+    $(document).on('click', '.favorite-btn', function () {
+        const id = $(this).data('id');
+        const isFavorite = $(this).data('favorite') === true;
+        const newFavoriteStatus = !isFavorite;
 
-        $.ajax({// Ajax request to toggle favorite status
-            url: `${API_URL}/${id}`,// using the database and the movie id
-            method: 'PATCH',// I use patch as it typically is used for partially updating a resource
+        $.ajax({
+            url: `${API_URL}/${id}`,
+            method: 'PATCH',
             contentType: 'application/json',
-            data: JSON.stringify({ favorite: isFavorite }),//The data property is set to a JSON string representing the updated favorite status. isFavorite is passed as the new favorite status.
+            data: JSON.stringify({ favorite: newFavoriteStatus }),
             success: function () {
-                getMovies();
                 if (window.location.pathname.endsWith('favorites.html')) {
                     getFavoriteMovies();
-                }//If the request is successful, the getMovies function is called to refresh the list of movies, ensuring the updated favorite status is displayed.
+                } else {
+                    getMovies();
+                }
             },
             error: function (xhr, status, error) {
-                console.error("Error toggling favorite status:", error);// if it fails displays an error
+                console.error("Error toggling favorite status:", error);
             }
         });
     });
 
     // HANDLE FORM SUBMISSION TO ADD A NEW MOVIE
-
-    $("#add-movie-form").submit(function (event) {//submit event handler to the form with the ID add-movie-form. 
+    $("#add-movie-form").submit(function (event) {
         event.preventDefault();
 
         const newMovie = {
@@ -143,40 +128,40 @@ $(document).ready(function () {//This code ensures that the script runs only aft
             image: $("#movie-image").val(),
             favorite: false,
             category: $("#movie-category").val(),
-        };// defining the properties of the new movie
+        };
 
-        $.ajax({// 
-            url: API_URL,// same database
-            method: "POST",// POST- sending data to te server
-            contentType: "application/json",// the application contains JSON data
-            data: JSON.stringify(newMovie),// converts the object to a string
-            success: function () {// if successful then it alerts the movie has been added
+        $.ajax({
+            url: API_URL,
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(newMovie),
+            success: function () {
                 alert("Movie added successfully!");
-                $("#add-movie-form")[0].reset();// resets all form fields
+                $("#add-movie-form")[0].reset();
                 getMovies();
             },
             error: function (xhr, status, error) {
-                console.error("Error adding new movie:", error);// error handling
+                console.error("Error adding new movie:", error);
             },
         });
     });
 
     // DELETE A MOVIE
-    $(document).on('click', '.delete-btn', function () {// event handler when clicked on the delete button
-        const id = $(this).data('id');// This line retrieves the value of the data-id attribute from the clicked element (referred to by $(this)). 
-        //This value is stored in the variable id and represents the identifier of the movie to be deleted.
+    $(document).on('click', '.delete-btn', function () {
+        const id = $(this).data('id');
 
         $.ajax({
-            url: `${API_URL}/${id}`,// specific id from the database to be deleted
-            method: 'DELETE',// request to remove the resource from the server
+            url: `${API_URL}/${id}`,
+            method: 'DELETE',
             success: function () {
-                getMovies();
                 if (window.location.pathname.endsWith('favorites.html')) {
                     getFavoriteMovies();
+                } else {
+                    getMovies();
                 }
             },
             error: function (xhr, status, error) {
-                console.error("Error deleting movie:", error);// error handling
+                console.error("Error deleting movie:", error);
             }
         });
     });
@@ -188,25 +173,3 @@ $(document).ready(function () {//This code ensures that the script runs only aft
         getMovies();
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
