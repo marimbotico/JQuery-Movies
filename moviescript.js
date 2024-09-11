@@ -12,6 +12,22 @@ $(document).ready(function () {//This code ensures that the script runs only aft
     const API_URL = 'https://movies-1-ahs6.onrender.com/movies'; // defining the constant API_URL is defined with the URL of the API endpoint that provides the movie data.
 
 
+    document.addEventListener('DOMContentLoaded', function() {
+        var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+        var navbarToggler = document.querySelector('.navbar-toggler');
+        var navbarCollapse = document.querySelector('.navbar-collapse');
+    
+        navLinks.forEach(function(navLink) {
+            navLink.addEventListener('click', function() {
+                if (window.getComputedStyle(navbarToggler).display !== 'none') {
+                    navbarCollapse.classList.remove('show');
+                }
+            });
+        });
+    });
+
+
+
     // FETCH ALL MOVIES
 
     function getMovies() {// fetch movie data from the API.
@@ -83,7 +99,7 @@ $(document).ready(function () {//This code ensures that the script runs only aft
                         </div>
                     `;
                         // if (movie.favorite == true)
-                            $('#favorites .row').append(movieCard);
+                        $('#favorites .row').append(movieCard);
                     }// A template literal is used to create an HTML structure for each movie card, incorporating movie details and dynamically setting classes and data attributes.
                 });
             },
