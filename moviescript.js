@@ -1,17 +1,16 @@
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function() {
     const API_URL = 'https://movies-1-ahs6.onrender.com/movies';
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-        var navbarToggler = document.querySelector('.navbar-toggler');
-        var navbarCollapse = document.querySelector('.navbar-collapse');
-    
-        navLinks.forEach(function(navLink) {
-            navLink.addEventListener('click', function() {
-                if (window.getComputedStyle(navbarToggler).display !== 'none') {
-                    navbarCollapse.classList.remove('show');
-                }
-            });
+    // Navbar functionality
+    var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    var navbarToggler = document.querySelector('.navbar-toggler');
+    var navbarCollapse = document.querySelector('.navbar-collapse');
+
+    navLinks.forEach(function(navLink) {
+        navLink.addEventListener('click', function() {
+            if (window.getComputedStyle(navbarToggler).display !== 'none') {
+                navbarCollapse.classList.remove('show');
+            }
         });
     });
 
@@ -24,34 +23,8 @@ $(document).ready(function () {
                 console.log('movies', movies);
                 $('#action .row, #comedy .row, #sci-fi .row, #drama .row, #independent-film .row').empty();
                 movies.forEach(movie => {
-                    const favClass = movie.favorite ? 'fas' : 'far';
-                    const movieCard = `
-                        <div class="col-md-4 menu-item">
-                          <div class="card">
-                            <img src="${movie.image}" class="card-img-top" alt="${movie.name}">
-                            <div class="card-body">
-                              <h5 class="card-title">${movie.title}</h5>
-                              <p class="card-text">${movie.description}</p>
-                              <button class="btn btn-primary favorite-btn" data-id="${movie.id}" data-favorite="${movie.favorite}">
-                                <i class="${favClass} fa-heart"></i>
-                              </button>
-                              <button class="btn btn-danger delete-btn" data-id="${movie.id}">Delete</button>
-                            </div>
-                          </div>
-                        </div>
-                    `;
-
-                    if (movie.category === "action") {
-                        $('#action .row').append(movieCard);
-                    } else if (movie.category === "comedy") {
-                        $('#comedy .row').append(movieCard);
-                    } else if (movie.category === "sci-fi") {
-                        $('#sci-fi .row').append(movieCard);
-                    } else if (movie.category === "drama") {
-                        $('#drama .row').append(movieCard);
-                    } else if (movie.category === "independent-film") {
-                        $('#independent-film .row').append(movieCard);
-                    }
+                    const movieCard = createMovieCard(movie);
+                    $(`#${movie.category} .row`).append(movieCard);
                 });
             },
             error: function (xhr, status, error) {
@@ -67,31 +40,36 @@ $(document).ready(function () {
             method: 'GET',
             success: function (movies) {
                 $('#favorites .row').empty();
-                movies.forEach(movie => {
-                    if (movie.favorite) {
-                        const movieCard = `
-                        <div class="col-md-4 menu-item">
-                            <div class="card">
-                                <img src="${movie.image}" class="card-img-top" alt="${movie.title}" />
-                                <div class="card-body">
-                                    <h5 class="card-title">${movie.title}</h5>
-                                    <p class="card-text">${movie.description}</p>
-                                    <button class="btn btn-primary favorite-btn" data-id="${movie.id}" data-favorite="true">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                    <button class="btn btn-danger delete-btn" data-id="${movie.id}">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                        $('#favorites .row').append(movieCard);
-                    }
+                const favoriteMovies = movies.filter(movie => movie.favorite);
+                favoriteMovies.forEach(movie => {
+                    const movieCard = createMovieCard(movie);
+                    $('#favorites .row').append(movieCard);
                 });
             },
             error: function (xhr, status, error) {
-                console.error("Error fetching movies:", error);
+                console.error("Error fetching favorite movies:", error);
             }
         });
+    }
+
+    // CREATE MOVIE CARD
+    function createMovieCard(movie) {
+        const favClass = movie.favorite ? 'fas' : 'far';
+        return `
+            <div class="col-md-4 menu-item">
+                <div class="card">
+                    <img src="${movie.image}" class="card-img-top" alt="${movie.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${movie.title}</h5>
+                        <p class="card-text">${movie.description}</p>
+                        <button class="btn btn-primary favorite-btn" data-id="${movie.id}" data-favorite="${movie.favorite}">
+                            <i class="${favClass} fa-heart"></i>
+                        </button>
+                        <button class="btn btn-danger delete-btn" data-id="${movie.id}">Delete</button>
+                    </div>
+                </div>
+            </div>
+        `;
     }
 
     // TOGGLE FAVORITE STATUS
@@ -166,7 +144,7 @@ $(document).ready(function () {
         });
     });
 
-    //LOAD ALL MOVIES 
+    // LOAD APPROPRIATE MOVIES
     if (window.location.pathname.endsWith('favorites.html')) {
         getFavoriteMovies();
     } else {
