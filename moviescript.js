@@ -55,13 +55,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // CREATE MOVIE CARD
     function createMovieCard(movie) {
         const favClass = movie.favorite ? 'fas' : 'far';
+        const truncatedDescription = movie.description.length > 300 
+        ? movie.description.substring(0, 300) + '...' 
+        : movie.description;
+
         return `
             <div class="col-md-4 menu-item">
                 <div class="card">
                     <img src="${movie.image}" class="card-img-top" alt="${movie.title}">
                     <div class="card-body">
                         <h5 class="card-title">${movie.title}</h5>
-                        <p class="card-text">${movie.description}</p>
+                        <p class="card-text">${truncatedDescription}</p>
                         <button class="btn btn-primary favorite-btn" data-id="${movie.id}" data-favorite="${movie.favorite}">
                             <i class="${favClass} fa-heart"></i>
                         </button>

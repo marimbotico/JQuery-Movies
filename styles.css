@@ -52,4 +52,39 @@
     }
   }
   
-   
+   /* Ensure all movie cards have a consistent size */
+.menu-item {
+  margin-bottom: 20px;
+}
+
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* flex-grow: 1; */
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  flex-grow: 1;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  text-overflow: ellipsis;
+  overflow:hidden;
+}
+
+.favorite-btn, .delete-btn {
+  justify-content:space-between;
+}
